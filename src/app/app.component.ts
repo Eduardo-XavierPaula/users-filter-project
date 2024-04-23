@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IUser } from './interfaces/user/user.interface';
 import { UsersList } from './data/users-list';
 import { IFilterOptions } from './interfaces/filter-options.interface';
+import { filterUsersList } from './utils/filter-users-list';
 
 @Component({
   selector: 'app-root',
@@ -27,25 +28,6 @@ export class AppComponent implements OnInit {
   }
 
   onFilter(filterOptions: IFilterOptions) {
-    this.usersListFiltered = this.filterUserList(filterOptions, this.usersList);
-  }
-
-  filterUserList(filterOptions: IFilterOptions, usersList: IUser[]): IUser[] {
-    let filteredList: IUser[] = [];
-
-    filteredList = this.filterUsersListByName(filterOptions.name, usersList);
-
-    return filteredList;
-  }
-
-  filterUsersListByName(name: string | undefined, usersList: IUser[]): IUser[] {
-    const NAME_NOT_TYPED = name === undefined;
-    if (NAME_NOT_TYPED) {
-      return usersList;
-    }
-    const filteredList = usersList.filter((user) =>
-      user.nome.toLowerCase().includes(name.toLowerCase())
-    );
-    return filteredList;
+    this.usersListFiltered = filterUsersList(filterOptions, this.usersList);
   }
 }
